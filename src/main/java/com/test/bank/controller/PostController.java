@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,8 +20,9 @@ public class PostController {
     private PostService postService;
 
     @GetMapping
-    public ResponseEntity<List<PostDto>> getPost(){
-        List<PostDto> postDtos = postService.getPost();
-        return  ResponseEntity.ok(postDtos);
+    public ResponseEntity<List<PostDto>> getPost( @RequestParam(defaultValue = "1") int page,
+                                                  @RequestParam(defaultValue = "10") int pageSize){
+        List<PostDto> postDtos = postService.getPost(page, pageSize);
+        return ResponseEntity.status(HttpStatus.OK).body(postDtos);
     }
 }
